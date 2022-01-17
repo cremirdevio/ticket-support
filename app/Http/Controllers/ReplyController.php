@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Reply;
+use App\Models\Ticket;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
+use Auth;
 
 class ReplyController extends Controller
 {
@@ -24,7 +27,6 @@ class ReplyController extends Controller
      */
     public function create()
     {
-        //
     }
 
     /**
@@ -36,6 +38,20 @@ class ReplyController extends Controller
     public function store(Request $request)
     {
         //
+        $request->validate([
+            'ticketID' => ['required', 'numeric', 'min:1'],
+            'subject' => ['required', 'string', 'max:255'],
+            'body' => ['required', 'string'],
+        ]);
+
+        Reply::create([
+            'subject' => $request->subject,
+            'body' => $request->body,
+            'reference' => Str::random(10),
+            'ticket_id' => $request->ticketID,
+            'user_id' => Auth::id(),
+        ]);
+        return redirect()->back();
     }
 
     /**
