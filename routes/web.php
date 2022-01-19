@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TicketController;
 use App\Http\Controllers\ReplyController;
+use App\Http\Controllers\AdminController;
 
 /*
 |--------------------------------------------------------------------------
@@ -36,9 +37,9 @@ Route::post('/create-ticket', [TicketController::class, 'store'])->name(
     'ticket.store'
 );
 
-Route::get('reply', function () {
-    return view('reply');
-});
+// Route::get('admin/dashboard', function () {
+//     return view('admin.dashboard');
+// });
 // Route::get('/create-reply', [ReplyController::class, 'create'])->name(
 //     'reply.create'
 // );
@@ -48,3 +49,24 @@ Route::post('/', [ReplyController::class, 'store'])->name('reply.store');
 Route::get('/reply/{reply}', [ReplyController::class, 'show'])->name(
     'reply.show'
 );
+Route::get('redirectTo', 'App\Http\Controllers\HomeController@index');
+
+Route::middleware(['auth', 'isAdmin'])->group(function () {
+    Route::get('/admin', [AdminController::class, 'index'])->name('dashboard');
+    Route::get('admin/tickets/{id}', [AdminController::class, 'show'])->name(
+        'admin.show'
+    );
+    Route::get('admin/closed_ticket/{id}', [
+        AdminController::class,
+        'closed_ticket',
+    ])->name('admin.closed_ticket');
+
+    Route::get('admin/category', [
+        AdminController::class,
+        'showAllCategories',
+    ])->name('admin.showAllCategories');
+    Route::get('admin/category/{id}', [
+        AdminController::class,
+        'showCategory',
+    ])->name('admin.showCategory');
+});

@@ -27,6 +27,12 @@ class ReplyController extends Controller
      */
     public function create()
     {
+        //
+        //   $categories = Category::all(); ticketID
+        //  $ticketId = Ticket::find($id)->getTicketIdReply;
+        // $user = 'Nse';
+        // return $ticketId;
+        // return view('create-reply', compact('ticketId'));
     }
 
     /**
@@ -63,6 +69,8 @@ class ReplyController extends Controller
     public function show(Reply $reply)
     {
         //
+        $replies = Reply::find($reply);
+        // return view('showTicket', $reply);
     }
 
     /**
