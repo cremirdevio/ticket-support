@@ -18,13 +18,13 @@
 
 <body>
     <!-- Responsive navbar-->
-    @include('layouts.partials.nav')
+    @include('admin/layouts.partials.nav')
 
     <!-- Each page content should be here -->
     @yield('content')
 
     <!-- Footer-->
-    @include('layouts.partials.footer')
+    @include('admin/layouts.partials.footer')
     <!-- Bootstrap core JS-->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
     <!-- Core theme JS-->

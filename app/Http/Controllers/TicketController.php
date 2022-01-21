@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Category;
 use App\Models\Ticket;
+use App\Models\Reply;
 use Illuminate\Support\Str;
 use Auth;
 
@@ -15,17 +16,17 @@ class TicketController extends Controller
         // Fetch all tickets for the user
         // $tickets = Ticket::where('user_id', Auth::id())->get();
         $tickets = Auth::user()->tickets;
-        
+
         return view('tickets', compact('tickets'));
     }
 
-    public function store(Request $request) 
+    public function store(Request $request)
     {
         // validation
         $request->validate([
             'category_id' => ['required', 'numeric', 'min:1'],
             'subject' => ['required', 'string', 'max:255'],
-            'body' => ['required', 'string']
+            'body' => ['required', 'string'],
         ]);
 
         // When theres error
@@ -41,7 +42,7 @@ class TicketController extends Controller
             'category_id' => $request->category_id,
             'user_id' => Auth::id(),
         ]);
-        
+
         // Another way
         // $ticket = new Ticket();
         // $ticket->subject = $request->subject;
@@ -51,9 +52,11 @@ class TicketController extends Controller
         // $ticket->user_id = 1;
         // $ticket->save();
 
-
         // return user back to homepage
-        return back()->with('success', 'Your ticket has been successfully created.');
+        return redirect('tickets')->with(
+            'success',
+            'Your ticket has been successfully created.'
+        );
     }
 
     public function create()
@@ -66,7 +69,9 @@ class TicketController extends Controller
 
     public function show(Ticket $ticket)
     {
-        return $ticket;
+        // $replies = Reply::find($ticket);
+        $replies = Reply::where('ticket_id', $ticket->id)->get();
+        return view('showTicket', compact('ticket', 'replies')); //$ticket;
         // Return view to show a single ticket and also allow reply to be added
     }
 }

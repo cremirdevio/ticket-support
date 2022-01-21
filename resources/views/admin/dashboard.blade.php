@@ -1,13 +1,27 @@
-@extends('layouts.app')
+@extends('admin/layouts.app')
 
 
-@section('title', 'Open Tickets')
+@section('title', 'Admin Dashboard')
 @section('content')
-    <!-- Contact section-->
-    <section class="bg-light py-5">
-        <div class="container px-5 my-5 px-5">
-            <div class="row gx-5 justify-content-center">
-                <div class="col">
+
+
+    <div class="row">
+
+        <!-- Area Chart -->
+        <div class="col">
+            <a href="{{ route('admin.showAllCategories') }}" class="btn btn-secondary m-4">View
+                categories</a>
+            <div class="card shadow mb-4">
+
+
+                <!-- Card Header - Dropdown -->
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                    <h6 class="m-0 font-weight-bold text-primary">All Tickets</h6>
+
+                </div>
+                <!-- Card Body -->
+                <div class="card-body">
+
 
                     @if (session('success'))
                         <div class="alert alert-success">
@@ -37,7 +51,8 @@
 
                                     <tr>
                                         <th scope="row">
-                                            <a href="{{ url('tickets', $ticket->id) }}">{{ $ticket->reference }}</a>
+                                            <a
+                                                href="{{ url('admin/tickets', $ticket->id) }}">{{ $ticket->reference }}</a>
                                             <br>
                                             {{ $ticket->user_id }}
                                         </th>
@@ -53,7 +68,7 @@
                                 @empty
                                     <tr>
                                         <th colspan="4">
-                                            <p class="text-center"> You have no Open ticket!</p>
+                                            <p class="text-center"> no Open ticket available!</p>
                                         </th>
                                     </tr>
                                 @endforelse
@@ -61,8 +76,12 @@
                         </table>
                     </div>
 
+
                 </div>
             </div>
         </div>
-    </section>
+
+    </div>
+
+
 @endsection

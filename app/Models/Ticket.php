@@ -12,7 +12,8 @@ class Ticket extends Model
     // protected $fillable = ['subject', ''];
     protected $guarded = ['id'];
 
-    public function user() {
+    public function user()
+    {
         return $this->belongsTo(User::class);
     }
 }
