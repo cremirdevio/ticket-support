@@ -126,7 +126,7 @@
                         @php
                             $user = \App\Models\User::where('id', $reply->user_id)->first();
                         @endphp
-                        <div class="card mb-3" style="max-width: 540px;">
+                        <div class="card mb-3 mx-2" style="max-width: 540px;">
                             <div>
 
                                 <div class="row">
