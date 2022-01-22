@@ -56,6 +56,7 @@ class ReplyController extends Controller
             'reference' => Str::random(10),
             'ticket_id' => $request->ticketID,
             'user_id' => Auth::id(),
+            'user_type' => Auth::user()->user_type,
         ]);
         return redirect()->back();
     }

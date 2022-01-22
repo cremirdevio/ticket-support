@@ -10,6 +10,9 @@
                 <li class="nav-item"><a class="nav-link" href="#!">About</a></li>
                 @auth
                     <li class="nav-item"><a class="nav-link" href="create-ticket">Create Ticket </a></li>
+                    <li class="nav-item">
+                    </li>
+
 
                     <li class="nav-item"><a class="nav-link" href="{{ route('logout') }}"
                             onclick="event.preventDefault();document.getElementById('logout-form').submit();">Logout</a>
