@@ -45,7 +45,9 @@ Route::middleware(['auth'])->group(function () {
     //     'reply.create'
     // );
 
-    Route::post('/', [ReplyController::class, 'store'])->name('reply.store');
+    Route::post('/reply', [ReplyController::class, 'store'])->name(
+        'reply.store'
+    );
 
     Route::get('/reply/{reply}', [ReplyController::class, 'show'])->name(
         'reply.show'
