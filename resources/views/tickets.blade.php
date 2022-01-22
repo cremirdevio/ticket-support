@@ -6,6 +6,7 @@
     <!-- Contact section-->
     <section class="bg-light py-5">
         <div class="container px-5 my-5 px-5">
+
             <div class="row gx-5 justify-content-center">
                 <div class="col">
 
@@ -30,6 +31,7 @@
                                     <th scope="col">Status</th>
                                     <th scope="col">Date</th>
                                     <th scope="col">Numbers of replies</th>
+                                    <th scope="col"></th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -47,8 +49,12 @@
                                         </td>
                                         <td>{{ $ticket->status }}</td>
                                         <td>{{ $ticket->created_at }}</td>
+
                                         <td>{{ $replies = \App\Models\Reply::where('ticket_id', $ticket->id)->count() }}
                                         </td>
+                                        <td> <a class="btn btn-outline-primary "
+                                                href="{{ url('tickets', $ticket->id) }}">View
+                                                Ticket</a></td>
                                     </tr>
                                 @empty
                                     <tr>

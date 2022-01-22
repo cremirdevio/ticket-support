@@ -25,6 +25,7 @@ class CategoryController extends Controller
     public function create()
     {
         //
+        return view('admin.categories.create-category');
     }
 
     /**
@@ -36,6 +37,19 @@ class CategoryController extends Controller
     public function store(Request $request)
     {
         //
+
+        $request->validate([
+            'categoryName' => ['required', 'string', 'max:255'],
+        ]);
+        $category = new Category();
+        $category->name = $request->categoryName;
+        $category->description = $request->description;
+        $category->save();
+
+        return redirect('admin/category')->with(
+            'success',
+            ' categories has been successfully created.'
+        );
     }
 
     /**
@@ -55,9 +69,12 @@ class CategoryController extends Controller
      * @param  \App\Models\Category  $category
      * @return \Illuminate\Http\Response
      */
-    public function edit(Category $category)
+    public function edit($id)
     {
         //
+        $categoryById = Category::find($id); //compact('categories')
+        //
+        return view('admin.categories.edit-category', compact('categoryById'));
     }
 
     /**
@@ -67,9 +84,18 @@ class CategoryController extends Controller
      * @param  \App\Models\Category  $category
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Category $category)
+    public function update(Request $request, $id)
     {
         //
+        $category = Category::find($id);
+        $category->name = $request->categoryName;
+        $category->description = $request->description;
+        $category->save();
+
+        return redirect('admin/category')->with(
+            'success',
+            ' categories has been successfully updated.'
+        );
     }
 
     /**
@@ -78,8 +104,12 @@ class CategoryController extends Controller
      * @param  \App\Models\Category  $category
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Category $category)
+    public function destroy($id)
     {
         //
+        $category = Category::find($id);
+
+        $category->delete();
+        return redirect('admin/category');
     }
 }

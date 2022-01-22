@@ -6,6 +6,9 @@ use Illuminate\Http\Request;
 use App\Models\Category;
 use App\Models\Ticket;
 use App\Models\Reply;
+use App\Models\User;
+use Illuminate\Support\Facades\DB;
+
 use Illuminate\Support\Str;
 use Auth;
 
@@ -71,7 +74,17 @@ class TicketController extends Controller
     {
         // $replies = Reply::find($ticket);
         $replies = Reply::where('ticket_id', $ticket->id)->get();
+
         return view('showTicket', compact('ticket', 'replies')); //$ticket;
         // Return view to show a single ticket and also allow reply to be added
     }
 }
+
+// span class="badge badge-pill badge-primary">Primary</span>
+// <span class="badge badge-pill badge-secondary">Secondary</span>
+// <span class="badge badge-pill badge-success">Success</span>
+// <span class="badge badge-pill badge-danger">Danger</span>
+// <span class="badge badge-pill badge-warning">Warning</span>
+// <span class="badge badge-pill badge-info">Info</span>
+// <span class="badge badge-pill badge-light">Light</span>
+// <span class="badge badge-pill badge-dark">Dark</span>

@@ -6,6 +6,8 @@
 @section('content')
     <!-- Contact section-->
     <section class="bg-light py-5">
+
+        <a href="{{ route('dashboard') }}" class="m-4 align-content-between btn btn-outline-primary">Go back</a>
         <div class="container px-5 my-5 px-5">
             <div class="row gx-5 justify-content-center">
                 <div class="col">
@@ -83,64 +85,87 @@
                                 <p>{{ session('error') }}</p>
                             </div>
                         @endif
-                        <div class="accordion-item">
-                            <h2 class="accordion-header" id="headingThree">
-                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                    data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                                    Reply
-                                </button>
-                            </h2>
-                            <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree"
-                                data-bs-parent="#accordionExample">
-                                <div class="accordion-body">
-                                    <form method="POST" action="{{ route('reply.store') }}">
-                                        @csrf
-                                        <div class="form-group">
-                                            <label for="exampleInputEmail1">Subject</label>
-                                            <input type="text" id="subject" name="subject" class="form-control"
-                                                id="exampleInputEmail1" value="{{ $ticket->subject }}"
-                                                aria-describedby="emailHelp" placeholder="Enter subject">
+                        @if ($ticket->status == 'closed')
+                            <p class="text-danger text-center">This ticket have been closed and cant accept any reply again
+                            </p>
 
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="exampleInputPassword1" class="p-3">Message</label>
-                                            <textarea class="form-control @error('body') is-invalid  @enderror" id="message"
-                                                name="body" type="text" placeholder="Enter your reply here..."
-                                                value="{{ old('body') }}" style="height: 10rem"></textarea>
 
-                                        </div>
-                                        <input type="hidden" value="{{ $ticket->id }}" name="ticketID"
-                                            aria-describedby="emailHelp">
-                                        <button type="submit" class="btn btn-primary mt-4">Submit</button>
-                                    </form>
+                        @else
+
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="headingThree">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                        data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                        Reply
+                                    </button>
+                                </h2>
+                                <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree"
+                                    data-bs-parent="#accordionExample">
+                                    <div class="accordion-body">
+                                        <form method="POST" action="{{ route('reply.store') }}">
+                                            @csrf
+                                            <div class="form-group">
+                                                <label for="exampleInputEmail1">Subject</label>
+                                                <input type="text" id="subject" name="subject" class="form-control"
+                                                    id="exampleInputEmail1" value="{{ $ticket->subject }}"
+                                                    aria-describedby="emailHelp" placeholder="Enter subject">
+
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="exampleInputPassword1" class="p-3">Message</label>
+                                                <textarea class="form-control @error('body') is-invalid  @enderror"
+                                                    id="message" name="body" type="text"
+                                                    placeholder="Enter your reply here..." value="{{ old('body') }}"
+                                                    style="height: 10rem"></textarea>
+
+                                            </div>
+                                            <input type="hidden" value="{{ $ticket->id }}" name="ticketID"
+                                                aria-describedby="emailHelp">
+                                            <button type="submit" class="btn btn-primary mt-4">Submit</button>
+                                        </form>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                        @endif
                     </div>
-                    <div class="card mb-3" style="max-width: 540px;">
-                        <div>
-                            @forelse ($replies as $reply)
-                                <div class="row g-0">
+                    @forelse ($replies as $reply)
+                        @php
+                            $user = \App\Models\User::where('id', $reply->user_id)->first();
+                        @endphp
+                        <div class="card mb-3" style="max-width: 540px;">
+                            <div>
+
+                                <div class="row">
                                     {{-- <div class="col-md-4">
                                 <img src="..." class="img-fluid rounded-start" alt="...">
                             </div> --}}
 
                                     <div class="col-md-12">
                                         <div class="card-body">
-                                            <h5 class="card-title">{{ $reply->subject }}</h5>
+                                            <h5 class="card-title mr-3">{{ $reply->subject }}
+                                                <span class="badge rounded-pill bg-info">{{ $reply->user_type }} </span>
+                                            </h5>
                                             <p class="card-text">{{ $reply->body }}</p>
+                                            <p class="card-text"><strong
+                                                    class="">{{ $user->username }}</strong>
+                                            </p>
+                                            {{-- <p class="card-text"><strong
+                                                    class="">{{ $reply->user_type }}</strong>
+                                            </p> --}}
+
                                             <p class="card-text"><small
                                                     class="text-muted">{{ $reply->updated_at }}</small>
                                             </p>
+
                                         </div>
                                     </div>
                                 </div>
-                            @empty
 
-                            @endforelse
-                        </div>
+                            </div>
 
-                    </div>
+                    </div> @empty
+
+                    @endforelse
 
                     <div class="card mb-3" style="max-width: 540px;">
 
@@ -151,8 +176,13 @@
 
                             <div class="col-md-12">
                                 <div class="card-body">
-                                    <h5 class="card-title">{{ $ticket->subject }}</h5>
+                                    <h5 class="card-title">{{ $ticket->subject }}
+
+                                    </h5>
                                     <p class="card-text">{{ $ticket->body }}</p>
+                                    <p class="card-text"><strong
+                                            class="">{{ $ticket->status }}</strong>
+                                    </p>
                                     <p class="card-text"><small
                                             class="text-muted">{{ $ticket->updated_at }}</small>
                                     </p>

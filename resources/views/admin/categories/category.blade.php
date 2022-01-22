@@ -37,6 +37,7 @@
                                     <th scope="col">name</th>
                                     <th scope="col">description</th>
                                     <th scope="col">Date</th>
+                                    <th colspan="2">Operation</th>
                                     {{-- <th scope="col">Numbers of replies</th> --}}
                                 </tr>
                             </thead>
@@ -53,12 +54,19 @@
                                             <b>{{ $category->description }}</b>
                                         </td>
                                         <td>{{ $category->created_at }}</td>
-                                        {{-- <td>{{ $replies = \App\Models\Reply::where('ticket_id', $ticket->id)->count() }}
-                                        </td> --}}
+                                        <td>
+                                            <a class="btn btn-outline-info"
+                                                href="{{ url('admin/category/edit', $category->id) }}">Edit</a>
+                                        </td>
+                                        <td>
+                                            <a class="btn btn-outline-danger"
+                                                href="{{ url('admin/category/delete', $category->id) }}">Delete</a>
+                                        </td>
+
                                     </tr>
                                 @empty
                                     <tr>
-                                        <th colspan="3">
+                                        <th colspan="6">
                                             <p class="text-center"> no categories available!</p>
                                         </th>
                                     </tr>
